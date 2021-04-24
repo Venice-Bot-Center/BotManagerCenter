@@ -15,8 +15,8 @@ class TelegramChannelAdmin(GuardedModelAdmin):
 
 
 class BotDataAdmin(GuardedModelAdmin):
-    list_display = ("name", "data")
-    search_fields = "name"
+    list_display = ("name", "channel", "data")
+    search_fields = ["name"]
 
 
 admin.site.register(BotData, BotDataAdmin)
