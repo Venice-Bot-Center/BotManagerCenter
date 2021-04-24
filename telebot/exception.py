@@ -1,0 +1,2 @@
+class BotDataNotExist(Exception):
+    pass
