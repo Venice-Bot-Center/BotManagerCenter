@@ -116,6 +116,11 @@ AUTH_PASSWORD_VALIDATORS = [
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+AUTHENTICATION_BACKENDS = (
+    "django.contrib.auth.backends.ModelBackend",
+    "guardian.backends.ObjectPermissionBackend",
+)
+
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
@@ -138,3 +143,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 # Directory for the file upload
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+
+CRONJOBS = [
+    ("*/5 * * * *", "pollini.cron.run"),
+    ("*/2 * * * *", "marea.cron.run"),
+]

@@ -24,6 +24,10 @@ test: ## Run tests
 	@pipenv run skjold -v audit Pipfile.lock
 	@pipenv run python manage.py test --verbosity=0 --parallel --failfast
 
+.PHONY: bots
+bots: ## Launch command for bots
+	@pipenv run python manage.py run_pollini
+
 .PHONY: run
 run: ## Run the Django server
 	@pipenv run python manage.py runserver
@@ -33,3 +37,10 @@ start: install migrate run ## Install requirements, apply migrations, then start
 .PHONY: check
 check: ## Run checks on the packages
 	@pipenv run skjold -v audit Pipfile.lock
+
+.PHONY: update
+update: ## For updating repo
+	@git pull
+	@pipenv run python manage.py migrate
+	@pipenv run python manage.py crontab add
+	@pipenv run python manage.py crontab add

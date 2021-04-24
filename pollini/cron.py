@@ -4,9 +4,8 @@ from functools import cmp_to_key
 
 import requests
 
-from botmanager import settings
 from telebot.exception import BotDataNotExist
-from telebot.models import BotData, TelegramChannel
+from telebot.models import BotData
 
 log = logging.getLogger(__name__)
 
@@ -25,13 +24,6 @@ def letter_cmp(a, b):
 def get_monday() -> datetime.date:
     today = datetime.date.today()
     return today - datetime.timedelta(days=today.weekday() + 8)
-
-
-def hashed(input_data: list[tuple[str, str, str]]):
-    out = ""
-    for a, b, c in input_data:
-        out += f"{a}{b}{c}"
-    return out
 
 
 def get_dati_continui() -> dict:
@@ -58,7 +50,7 @@ def get_pollini() -> dict:
     return out
 
 
-def get_level(limits: list, number: float = 0.0) -> (str, str):
+def get_level(limits: list, number: float = 0.0) -> tuple[str, str]:
     if number is None:
         number = 0.0
     if number < limits[0]:
@@ -70,7 +62,7 @@ def get_level(limits: list, number: float = 0.0) -> (str, str):
     return "🔴", "High"
 
 
-def get_printed_data() -> list[tuple[str, str, str]]:
+def get_data_from_source() -> list[tuple[str, str, str]]:
     dati = get_dati_continui()
     pollini = get_pollini()
     out = []
@@ -91,27 +83,26 @@ def get_printed_data() -> list[tuple[str, str, str]]:
     return out
 
 
-def sender_message(data: dict, channel: TelegramChannel):
+def sender_message(data: dict) -> str:
     message = ""
     for a, b, c in data:
         if b != "None":
             message += f"{a} {c}\n"
-    return channel.telegram_send(message)[0]
+    return message
 
 
 def run():
     db_data, flag = BotData.objects.get_or_create(name="Pollini a Venezia")
     if flag:
         raise BotDataNotExist
-    data = get_printed_data()
-    new_hash = hashed(data)
-    if any(
-        [settings.DEBUG, new_hash != db_data.data.get("pollini_hash", None)]
-    ):
+    new_hash = data = get_data_from_source()
+    if new_hash != db_data.data.get("pollini_hash", None):
         db_data.data["pollini_hash"] = new_hash
         if not db_data.channel.telegram_channel_delete_message(
             message_id=db_data.data.get("pollini_mex", None)
         ):
             log.error("Problemi con la cancellazione")
-        db_data.data["pollini_mex"] = sender_message(data, db_data.channel)
+        db_data.data["pollini_mex"] = db_data.channel.telegram_send(
+            sender_message(data)
+        )[0]
     db_data.save()
