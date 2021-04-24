@@ -3,14 +3,15 @@ repos:
     - repo: https://github.com/pre-commit/pre-commit-hooks
       rev: v3.4.0
       hooks:
-          - id: check-merge-conflict
-          - id: detect-private-key
-          - id: check-symlinks
           - id: check-toml
-          - id: check-xml
           - id: check-yaml
-          - id: forbid-new-submodules
-          - id: mixed-line-ending
+          - id: check-json
+          - id: check-xml
+          - id: pretty-format-json
+            args: ["--autofix"]
+          - id: end-of-file-fixer
+          - id: requirements-txt-fixer
+          - id: end-of-file-fixer
           - id: trailing-whitespace
             language: python
     - repo: https://github.com/pre-commit/pygrep-hooks
@@ -20,7 +21,7 @@ repos:
           - id: python-no-log-warn
           - id: python-use-type-annotations
     - repo: https://github.com/asottile/pyupgrade
-      rev: v2.11.0
+      rev: v2.13.0
       hooks:
           - id: pyupgrade
             args: [--py310-plus]
@@ -30,7 +31,7 @@ repos:
           - id: black
             language_version: python3.9
     - repo: https://gitlab.com/pycqa/flake8
-      rev: 3.9.0
+      rev: 3.9.1
       hooks:
           - id: flake8
     - repo: https://github.com/asottile/blacken-docs
@@ -41,4 +42,3 @@ repos:
       rev: v0.59.0
       hooks:
           - id: scss-lint
-
