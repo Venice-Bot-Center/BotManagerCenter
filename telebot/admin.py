@@ -1,7 +1,7 @@
 from django.contrib import admin
 from guardian.admin import GuardedModelAdmin
 
-from telebot.models import TelegramBot, TelegramChannel
+from telebot.models import TelegramBot, TelegramChannel, BotData
 
 
 class TelegramBotAdmin(GuardedModelAdmin):
@@ -9,12 +9,16 @@ class TelegramBotAdmin(GuardedModelAdmin):
     search_fields = ("name", "token")
 
 
-admin.site.register(TelegramBot, TelegramBotAdmin)
-
-
 class TelegramChannelAdmin(GuardedModelAdmin):
     list_display = ("name", "token", "bot")
     search_fields = ("name", "token")
 
 
+class BotDataAdmin(GuardedModelAdmin):
+    list_display = ("name", "data")
+    search_fields = "name"
+
+
+admin.site.register(BotData, BotDataAdmin)
+admin.site.register(TelegramBot, TelegramBotAdmin)
 admin.site.register(TelegramChannel, TelegramChannelAdmin)

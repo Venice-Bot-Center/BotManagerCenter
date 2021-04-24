@@ -20,7 +20,6 @@ class TelegramChannel(models):
     bot = models.ForeignKey(
         TelegramBot, on_delete=models.CASCADE, null=True, blank=True
     )
-    last_message = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -28,7 +27,7 @@ class TelegramChannel(models):
     class Meta:
         unique_together = ["bot", "token"]
 
-    def telegram_send(self, text: str) -> bool:
+    def telegram_send(self, text: str) -> tuple[str, bool]:
         url = f"https://api.telegram.org/bot{self.bot.token}/sendMessage"
         message = {
             "chat_id": self.token,
@@ -38,19 +37,23 @@ class TelegramChannel(models):
         r = requests.post(url=url, json=message)
         print(r.json())
         if r.json()["ok"]:
-            self.last_message = r.json()["result"]["message_id"]
-            self.save()
-            return True
-        return False
+            return r.json()["result"]["message_id"], True
+        return r.json()["result"]["message_id"], False
 
-    def telegram_channel_delete_message(self) -> bool:
+    def telegram_channel_delete_message(self, message_id: str) -> bool:
         url = f"https://api.telegram.org/bot{self.bot.token}/deleteMessage"
-        message = {"chat_id": self.token, "message_id": self.last_message}
+        message = {"chat_id": self.token, "message_id": message_id}
         r = requests.get(url=url, json=message)
         log.info(r.json())
         if r.json()["ok"]:
-            self.last_message = None
-            self.save()
             return True
         else:
             return False
+
+
+class BotData(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+    data = models.JSONField(default=dict)
+
+    def __str__(self):
+        return self.name
