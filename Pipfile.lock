@@ -1,7 +1,7 @@
 {
   "_meta": {
     "hash": {
-      "sha256": "a4db7d4aa39c706beb6bfd6e2c7ade0675488e29b68a273f9eb5d152c8efc6b6"
+      "sha256": "43483280d17e05a766532c79de8e65fbee8bb9128acb830bcc97e829825e74ac"
     },
     "pipfile-spec": 6,
     "requires": {
@@ -55,6 +55,13 @@
       ],
       "index": "pypi",
       "version": "==3.2"
+    },
+    "django-crontab": {
+      "hashes": [
+        "sha256:1201810a212460aaaa48eb6a766738740daf42c1a4f6aafecfb1525036929236"
+      ],
+      "index": "pypi",
+      "version": "==0.7.1"
     },
     "django-filter": {
       "hashes": [
@@ -158,11 +165,11 @@
     },
     "astroid": {
       "hashes": [
-        "sha256:0f156ea0feec7fb78fd035d041a047b37f2aae9345d7f7960670bcd961182f77",
-        "sha256:b8823e7af8044b97b4b0c1bad06b980e4ce5519fee6d3d77ea5333a2b2d61d9a"
+        "sha256:4db03ab5fc3340cf619dbc25e42c2cc3755154ce6009469766d7143d1fc2ee4e",
+        "sha256:8a398dfce302c13f14bab13e2b14fe385d32b73f4e4853b9bdfb64598baa1975"
       ],
       "markers": "python_version ~= '3.6'",
-      "version": "==2.5.5"
+      "version": "==2.5.6"
     },
     "cfgv": {
       "hashes": [
@@ -294,11 +301,11 @@
     },
     "pylint": {
       "hashes": [
-        "sha256:082a6d461b54f90eea49ca90fff4ee8b6e45e8029e5dbd72f6107ef84f3779c0",
-        "sha256:a01cd675eccf6e25b3bdb42be184eb46aaf89187d612ba0fb5f93328ed6b0fd5"
+        "sha256:4236b7284853b779a8add49aca287a5899245894995c5591d2b5839a32482330",
+        "sha256:ad1bff19c46bfc6d2aeba4de5f76570d253df4915d2043ba61dc6a96233c4bd6"
       ],
       "index": "pypi",
-      "version": "==2.8.0"
+      "version": "==2.8.1"
     },
     "pylint-django": {
       "hashes": [
