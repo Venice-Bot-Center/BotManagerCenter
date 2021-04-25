@@ -1,6 +1,11 @@
+import datetime
+import logging
+
 from marea.api.marea import get_istantanea_marea, get_percentuale_allagamento
 from marea.api.wind import get_vento
 from telebot.models import BotData
+
+log = logging.getLogger(__name__)
 
 UP = "🔺"
 DOWN = "🔻"
@@ -38,15 +43,21 @@ def adding_data(input_dict: dict, db_data: BotData):
     db_data.data["lastest"] = db_data.data.get("last", None)
     prevision = []
     for data in input_dict:
-        d = Previsione(
-            data["DATA_PREVISIONE"],
-            data["DATA_ESTREMALE"],
-            data["TIPO_ESTREMALE"],
-            data["VALORE"],
-        )
-        maximum = max(int(maximum), int(data["VALORE"]))
-        prevision.append(str(d))
-        db_data.data["last"] = input_dict[0]["DATA_PREVISIONE"]
+        if (
+            datetime.datetime.strptime(
+                data["DATA_ESTREMALE"], "%Y-%m-%d %H:%M:%S"
+            )
+            > datetime.datetime.now()
+        ):
+            d = Previsione(
+                data["DATA_PREVISIONE"],
+                data["DATA_ESTREMALE"],
+                data["TIPO_ESTREMALE"],
+                data["VALORE"],
+            )
+            maximum = max(int(maximum), int(data["VALORE"]))
+            prevision.append(str(d))
+            db_data.data["last"] = input_dict[0]["DATA_PREVISIONE"]
     db_data.data["prevision"] = prevision
     db_data.save()
     return maximum
