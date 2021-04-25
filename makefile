@@ -26,6 +26,7 @@ test: ## Run tests
 .PHONY: bots
 bots: ## Launch command for bots
 	@pipenv run python manage.py run_pollini
+	@pipenv run python manage.py run_marea
 
 .PHONY: run
 run: ## Run the Django server
