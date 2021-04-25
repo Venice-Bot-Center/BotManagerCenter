@@ -1,6 +1,7 @@
+import logging
+
 import requests
 from bs4 import BeautifulSoup
-import logging
 
 MAREA_ISTANTANEA_API = "https://www.comune.venezia.it/sites/default/files/publicCPSM2/stazioni/temporeale/Punta_Salute.html"
 
