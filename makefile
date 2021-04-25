@@ -6,7 +6,6 @@ include .env
 help: ## Show this help
 	@egrep -h '\s##\s' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
 
-
 .PHONY: install
 install: ## Make venv and install requirements
 	@pipenv lock
@@ -27,6 +26,7 @@ test: ## Run tests
 .PHONY: bots
 bots: ## Launch command for bots
 	@pipenv run python manage.py run_pollini
+	@pipenv run python manage.py run_marea
 
 .PHONY: run
 run: ## Run the Django server

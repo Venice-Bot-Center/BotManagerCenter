@@ -42,7 +42,8 @@ def run():
     db_data, flag = BotData.objects.get_or_create(name="Pollini a Venezia")
     if flag:
         raise BotDataNotExist
-    new_hash = data = get_data_from_source()
+    data = get_data_from_source()
+    new_hash = sender_message(data)
     if new_hash != db_data.data.get("pollini_hash", None):
         db_data.data["pollini_hash"] = new_hash
         if not db_data.channel.telegram_channel_delete_message(
