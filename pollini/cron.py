@@ -30,7 +30,7 @@ def get_data_from_source() -> list[tuple[str, str, str]]:
     return out
 
 
-def sender_message(data: dict) -> str:
+def sender_message(data: list[tuple[str, str, str]]) -> str:
     message = ""
     for a, b, c in data:
         if b != "None":
