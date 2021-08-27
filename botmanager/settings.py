@@ -29,24 +29,7 @@ SECRET_KEY = (
 
 my_file = Path("dev")
 
-
-def is_dev():
-    return my_file.exists()
-
-
-def is_test():
-    return Path("test").exists()
-
-
-def is_test_mail():
-    return Path("test_mail").exists()
-
-
-def is_prod():
-    return not my_file.exists()
-
-
-DEBUG = is_dev()
+DEBUG = os.environ.get("DEBUG", False)
 
 ALLOWED_HOSTS = []
 
@@ -103,11 +86,11 @@ WSGI_APPLICATION = "botmanager.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "botmanager",
-        "USER": "test",
-        "PASSWORD": "py4fun",
-        "HOST": "localhost",
-        "PORT": "",
+        "NAME": os.getenv("DB_NAME", "botmanager"),
+        "USER": os.getenv("DB_USER", "mela"),
+        "PASSWORD": os.getenv("DB_PASSWORD", "py4fun"),
+        "HOST": os.getenv("DB_HOST", "localhost"),
+        "PORT": os.getenv("DB_PORT", ""),
     }
 }
 
