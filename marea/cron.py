@@ -18,9 +18,9 @@ def run():
         r = requests.get(MAREA_API_URL)
         if 200 <= r.status_code < 400:
             datas = r.json()
-            adding_data(datas, db_data)
+            max = adding_data(datas, db_data)
             posting_actv(db_data)
-            posting_previsione(db_data=db_data)
+            posting_previsione(db_data=db_data, max=max)
             posting_instant(db_data)
             posting_mose(db_data)
         else:

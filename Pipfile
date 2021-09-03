@@ -9,6 +9,7 @@ pylint-django = "*"
 flake8 = "*"
 pre-commit= "*"
 skjold = "*"
+black = "*"
 
 [packages]
 django = ">=3.2"
