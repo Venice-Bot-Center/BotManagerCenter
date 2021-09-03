@@ -52,8 +52,8 @@ def adding_data(input_dict: dict, db_data: BotData):
     return maximum
 
 
-def posting_previsione(db_data: BotData):
-    if db_data.data["lastest"] == db_data.data["last"]:
+def posting_previsione(db_data: BotData, max: int):
+    if db_data.data["lastest"] == db_data.data["last"] or max < 95:
         return
     if db_data.data.get("message_id", None) is not None:
         db_data.channel.telegram_channel_delete_message(
@@ -69,7 +69,6 @@ def posting_previsione(db_data: BotData):
 
 
 def posting_instant(db_data: BotData):
-
     hight = get_istantanea_marea()
     allagamento = get_percentuale_allagamento(hight)
     vento, vento_max = get_vento()
